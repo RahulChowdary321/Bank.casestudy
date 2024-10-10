@@ -1,0 +1,175 @@
+import random
+
+class Bank():
+
+    def create_acc(self):
+
+        self.name=input('Enter your Full Name')
+
+        self.mobilenumber=input('Enter your Mobile Number')
+
+        self.acnt=input('Enter your Account Type \n SAVINGS \n Business \n Current Acc:')
+
+        self.acnt_balance=0
+
+        self.dc=0
+
+        self.tc=0
+
+        self.wc=0
+
+        self.dep_amnt=0
+
+        self.with_amnt=0
+
+        self.transfer_amnt=0
+
+        self.acnt_num=int(random.random()*1000)
+
+        print('Your Account number is :',self.acnt_num)
+
+    def print_details(self):
+
+        print('Your Account Details  :')
+
+        print('Account Holder Name :',self.name)
+
+        print('Account Number :',self.acnt_num)
+
+        print('Mobile Number :',self.mobilenumber)
+
+        print('Accout Type :',self.acnt)
+
+        print('Available Amount :',self.acnt_balance)
+
+    def deposit(self):
+
+        print('Available balance after deposit :',self.acnt_balance)
+
+    def withdraw(self):
+
+        print('Available amount after deposit : ',self.acnt_balance)
+
+ 
+
+bd={}
+
+while True:
+
+    print('1.Create Account')
+
+    print('2.View Account Details By Accno')
+
+    print('3.Withdraw')
+
+    print('4.Deposit')
+
+    print('5.Fund Transfer')
+
+    print('6.Print Transactions')
+
+    print('7.Exit')
+
+    n=int(input('Hi, Please Enter Your Choice'))
+
+    dc=0;wc=0;tc=0 #deposit,transfer,withdraw counts
+
+    if n==1:
+
+        b=Bank()
+
+        b.create_acc()
+
+        bd[b.acnt_num]=b
+
+    elif n==2:
+
+        t=bd[int(input('Enter Your Account Number: '))]
+
+        if t in bd.values():
+
+            t.print_details()
+
+        else:
+
+            print('ACCOUNT NOT EXISTS IN THE DATABASE ')
+
+    elif n==3:
+
+        t=bd[int(input('Enter Your Account Number: '))]
+
+        k=int(input('Enter Amount to be Deposited: '))
+
+        t.acnt_balance+=k
+
+        t.dep_amnt+=t.acnt_balance
+
+        t.dc+=1
+
+        t.deposit()
+
+    elif n==4:
+
+        t=bd[int(input('Enter Your Account Number: '))]
+
+        d=int(input('Enter Amount to be withdrawn'))
+
+        if t.acnt_balance<d:
+
+            print('Amount is not sufficient')
+
+        else:    
+
+            t.acnt_balance-=d
+
+            t.withdraw()
+
+            t.wc+=1
+
+            t.with_amnt+=t.transfer_amnt
+
+    elif n==5:
+
+        t1=bd[int(input('Enter Your Account Number: '))]
+
+        t2=bd[int(input('Enter account number to be transferred to'))]
+
+        amnt=int(input('Enter the amount to be transferred'))
+
+        if t1.acnt_balance - amnt > 0:
+
+            t2.acnt_balance+=amnt
+
+            t1.acnt_balance-=amnt
+
+            t1.transfer_amnt+=t.acnt_balance
+
+            t1.tc+=1
+
+        else :
+
+            tc=0
+
+            print('Insufficient funds')
+
+            print('Receiver balance after transferring :',t2.acnt_balance)
+
+            print('Sneder balance after transferring :',t1.acnt_balance)
+
+        t1.print_details()
+
+        t2.print_details()
+
+    elif n==6:
+
+        t1=bd[int(input('Enter Your Account Number'))]
+
+        print('Withdraw transactions',t1.wc,' and Withdrawn Amount :',t1.with_amnt)
+
+        print('Transfer transactions',t1.tc,' and Transferred Amount :',t1.transfer_amnt)
+
+        print('Deposit transactions',t1.dc,' and Deposited amnt ',t1.dep_amnt)
+
+    else:
+
+        break
